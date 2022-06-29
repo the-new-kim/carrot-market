@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../components/button";
 import Input from "../components/input";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 
 interface IEnterForm {
   email?: string;
@@ -12,6 +12,7 @@ interface IEnterForm {
 
 const Enter: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<IEnterForm>();
+  const [submitting, setSubmitting] = useState(false);
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
     reset();
@@ -23,7 +24,14 @@ const Enter: NextPage = () => {
   };
 
   const onValid = (data: IEnterForm) => {
-    console.log(data);
+    setSubmitting(true);
+    fetch("/api/users/enter", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => setSubmitting(false));
   };
 
   return (
@@ -82,7 +90,9 @@ const Enter: NextPage = () => {
           ) : null}
           {method === "email" ? <Button text={"Get login link"} /> : null}
           {method === "phone" ? (
-            <Button text={"Get one-time password"} />
+            <Button
+              text={submitting ? "Loading..." : "Get one-time password"}
+            />
           ) : null}
         </form>
 
