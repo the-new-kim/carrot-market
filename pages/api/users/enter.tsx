@@ -4,17 +4,16 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, phone } = req.body;
+  const payload = phone ? { phone: +phone } : { email };
 
   let user;
 
   user = await client.user.upsert({
     where: {
-      ...(email && { email }),
-      ...(phone && { phone: +phone }),
+      ...payload,
     },
     create: {
-      ...(email && { email }),
-      ...(phone && { phone: +phone }),
+      ...payload,
       name: "Anonymous",
     },
     update: {},
