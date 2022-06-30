@@ -6,9 +6,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, phone } = req.body;
   const payload = phone ? { phone: +phone } : { email };
 
-  let user;
-
-  user = await client.user.upsert({
+  const user = await client.user.upsert({
     where: {
       ...payload,
     },
@@ -19,7 +17,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     update: {},
   });
 
-  console.log("user data", user);
+  const token = await client.token.create({
+    data: {
+      payload: "1223",
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
+    },
+  });
+  console.log("looooooooooog", token);
   return res.status(200).end();
 }
 
