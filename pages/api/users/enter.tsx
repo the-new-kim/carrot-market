@@ -35,27 +35,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
     },
   });
   if (phone) {
-    const message = await twilioClient.messages.create({
-      messagingServiceSid: process.env.TWILIO_MSID,
-      to: process.env.MY_PHONE!,
-      body: `Your login token is ${payload}`,
-    });
-
-    console.log(message);
+    // const message = await twilioClient.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_MSID,
+    //   to: process.env.MY_PHONE!,
+    //   body: `Your login token is ${payload}`,
+    // });
+    // console.log(message);
   }
   //email
   else if (email) {
-    const email = await mailgunClient.messages.create(
-      process.env.MAILGUN_DOMAIN,
-      {
-        from: "jonkim0309@gmail.com",
-        to: "jonkim0309@gmail.com",
-        subject: "Your Carrot Market Verification Email",
-        text: `Your login token is ${payload}`,
-        html: `Your login token is <strong>${payload}</strong>`,
-      }
-    );
-    console.log(email);
+    // const email = await mailgunClient.messages.create(
+    //   process.env.MAILGUN_DOMAIN,
+    //   {
+    //     from: "jonkim0309@gmail.com",
+    //     to: "jonkim0309@gmail.com",
+    //     subject: "Your Carrot Market Verification Email",
+    //     text: `Your login token is ${payload}`,
+    //     html: `Your login token is <strong>${payload}</strong>`,
+    //   }
+    // );
+    // console.log(email);
   }
 
   return res.json({ ok: true });
