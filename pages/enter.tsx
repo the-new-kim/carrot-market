@@ -29,7 +29,7 @@ const Enter: NextPage = () => {
     enter(validForm);
   };
 
-  // console.log(loading, data, error);
+  console.log(loading, data, error);
 
   return (
     <div className="mt-16 px-4">
